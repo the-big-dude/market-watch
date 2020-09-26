@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="300">
+
+    <Properties>
+        <Property name="CONSOLE_LOG_PATTERN">
+            %clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1}}{cyan} %clr{:}{faint} %m%n%xwEx
+        </Property>
+        <Property name="LOG_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}
+        </Property>
+        <Property name="CONSOLE_LOG_PATTERN_WITH_CONTEXT">
+            %clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1}}{cyan} %clr{:}{faint} %m, %X %n%xwEx
+        </Property>
+        <Property name="LOG_PATTERN_WITH_CONTEXT">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m : %X %n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}
+        </Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
+            <PatternLayout>
+                <ScriptPatternSelector defaultPattern="${CONSOLE_LOG_PATTERN}">
+                    <Script name="MDCSelector" language="javascript"><![CDATA[
+                    result = null;
+                    if (!logEvent.getContextData().size() == 0) {
+                        result = "WithMDC";
+                    } else {
+                        result = null;
+                    }
+                    result;
+               ]]>
+                    </Script>
+                    <PatternMatch key="WithMDC" pattern="${CONSOLE_LOG_PATTERN_WITH_CONTEXT}"/>
+                </ScriptPatternSelector>
+            </PatternLayout>
+        </Console>
+
+        <RollingRandomAccessFile name="FileAppender"
+                                 fileName="logs/monitoring.log"
+                                 filePattern="logs/archived/monitoring_%d{yyyy-MM-dd}-%i.gz"
+                                 immediateFlush="false"
+                                 append="false">
+            <PatternLayout>
+                <ScriptPatternSelector defaultPattern="${LOG_PATTERN}">
+                    <Script name="MDCSelector" language="javascript"><![CDATA[
+                    result = null;
+                    if (!logEvent.getContextData().size() == 0) {
+                        result = "WithMDC";
+                    } else {
+                        result = null;
+                    }
+                    result;
+               ]]>
+                    </Script>
+                    <PatternMatch key="WithMDC" pattern="${LOG_PATTERN_WITH_CONTEXT}" />
+                </ScriptPatternSelector>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="RestFileAppender"
+                                 fileName="logs/rest_monitoring.log"
+                                 filePattern="logs/archived/rest_monitoring_%d{yyyy-MM-dd}-%i.gz"
+                                 immediateFlush="false"
+                                 append="false">
+            <PatternLayout>
+                <MarkerPatternSelector defaultPattern="${LOG_PATTERN}">
+                    <PatternMatch key="requestId"
+                                  pattern="${LOG_PATTERN_WITH_CONTEXT}" />
+                </MarkerPatternSelector>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingRandomAccessFile>
+
+    </Appenders>
+
+    <Loggers>
+
+        <AsyncLogger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="debug" additivity="false">
+            <AppenderRef ref="RestFileAppender" />
+            <AppenderRef ref="ConsoleAppender" />
+        </AsyncLogger>
+
+        <AsyncLogger name="org.apache" level="info" additivity="false">
+            <AppenderRef ref="FileAppender" />
+            <AppenderRef ref="ConsoleAppender" />
+        </AsyncLogger>
+
+        <AsyncLogger name="org.springframework" level="info" additivity="false">
+            <AppenderRef ref="FileAppender" />
+            <AppenderRef ref="ConsoleAppender" />
+        </AsyncLogger>
+
+        <AsyncLogger name="org.hibernate" level="info" additivity="false">
+            <AppenderRef ref="FileAppender" />
+            <AppenderRef ref="ConsoleAppender" />
+        </AsyncLogger>
+
+        <AsyncLogger name="org.jboss" level="info" additivity="false">
+            <AppenderRef ref="FileAppender" />
+            <AppenderRef ref="ConsoleAppender" />
+        </AsyncLogger>
+
+        <AsyncLogger name="springfox" level="info" additivity="false">
+            <AppenderRef ref="FileAppender" />
+            <AppenderRef ref="ConsoleAppender" />
+        </AsyncLogger>
+
+        <AsyncLogger name="sun" level="info" additivity="false">
+            <AppenderRef ref="FileAppender" />
+            <AppenderRef ref="ConsoleAppender" />
+        </AsyncLogger>
+
+        <AsyncLogger name="javax" level="info" additivity="false">
+            <AppenderRef ref="FileAppender" />
+            <AppenderRef ref="ConsoleAppender" />
+        </AsyncLogger>
+
+        <AsyncRoot level="debug">
+            <AppenderRef ref="FileAppender" />
+            <AppenderRef ref="ConsoleAppender" />
+        </AsyncRoot>
+
+    </Loggers>
+</Configuration>
+

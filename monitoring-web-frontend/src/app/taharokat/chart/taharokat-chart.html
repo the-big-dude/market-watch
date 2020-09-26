@@ -1,0 +1,30 @@
+<!-- Toolbar -->
+<div class="toolbar" role="banner">
+  <img
+    width="40"
+    alt="Angular Logo"
+    src="/assets/senobar.png"
+  />
+  <span>Welcome to Senobar Bource Taharokat application</span>
+  <div class="spacer"></div>
+</div>
+
+<div class="content" >
+
+  <ngx-charts-bar-vertical
+    [view]="[1000,400]"
+    [results]="saleData"
+    [xAxisLabel]="'Sahm'"
+    [legendTitle]="'Taharokat sahm Chart'"
+    [yAxisLabel]="'Sale'"
+    [legend]="true"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxis]="true"
+    [yAxis]="true"
+    [gradient]="true">
+  </ngx-charts-bar-vertical>
+</div>
+
+
+

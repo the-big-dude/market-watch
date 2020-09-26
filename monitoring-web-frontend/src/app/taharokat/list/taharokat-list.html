@@ -1,0 +1,103 @@
+<!-- Toolbar -->
+<div class="toolbar" role="banner">
+  <img
+    width="40"
+    alt="Angular Logo"
+    src="/assets/senobar.png"
+  />
+  <span>Welcome to Senobar Bource Taharokat application</span>
+  <div class="spacer"></div>
+</div>
+
+<div class="content" role="main">
+  <div class="monitoringTable">
+    <div style="width:100%;text-align: right;">
+
+    </div>
+    <mat-table #table [dataSource]="dataSource" class="scroll-table">
+
+      <ng-container matColumnDef="sahmName">
+        <mat-header-cell style="max-width: 120px;" *matHeaderCellDef (click)="doSort('sahmName')">
+          sahmName
+          <mat-icon *ngIf="isSortVisible('sahmName','ASC')">arrow_upward</mat-icon>
+          <mat-icon *ngIf="isSortVisible('sahmName','DESC')">arrow_downward</mat-icon>
+        </mat-header-cell>
+        <mat-cell style="max-width: 120px;" *matCellDef="let element"> {{element.sahmName}} </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="jumpNesbat">
+        <mat-header-cell style="max-width: 70px;" *matHeaderCellDef (click)="doSort('jumpNesbat')">
+          jumpNesbat
+          <mat-icon *ngIf="isSortVisible('jumpNesbat','ASC')">arrow_upward</mat-icon>
+          <mat-icon *ngIf="isSortVisible('jumpNesbat','DESC')">arrow_downward</mat-icon>
+        </mat-header-cell>
+        <mat-cell style="max-width: 70px;" *matCellDef="let element"> {{element.jumpNesbat}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="jumpSaraneh">
+        <mat-header-cell style="max-width: 120px;" *matHeaderCellDef (click)="doSort('jumpSaraneh')">
+          jumpSaraneh
+          <mat-icon *ngIf="isSortVisible('jumpSaraneh','ASC')">arrow_upward</mat-icon>
+          <mat-icon *ngIf="isSortVisible('jumpSaraneh','DESC')">arrow_downward</mat-icon>
+        </mat-header-cell>
+        <mat-cell style="max-width: 120px;" *matCellDef="let element"> {{element.jumpSaraneh}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="plusD">
+        <mat-header-cell style="max-width: 70px;" *matHeaderCellDef (click)="doSort('plusD')">
+          plusD
+          <mat-icon *ngIf="isSortVisible('plusD','ASC')">arrow_upward</mat-icon>
+          <mat-icon *ngIf="isSortVisible('plusD','DESC')">arrow_downward</mat-icon>
+        </mat-header-cell>
+        <mat-cell style="max-width: 70px;" *matCellDef="let element"> {{element.plusD}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="plusN">
+        <mat-header-cell style="max-width: 100px;" *matHeaderCellDef (click)="doSort('plusN')">
+          plusN
+          <mat-icon *ngIf="isSortVisible('plusN','ASC')">arrow_upward</mat-icon>
+          <mat-icon *ngIf="isSortVisible('plusN','DESC')">arrow_downward</mat-icon>
+        </mat-header-cell>
+        <mat-cell style="max-width: 100px;" *matCellDef="let element"> {{element.plusN}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="minusN">
+        <mat-header-cell style="max-width: 1500px;" *matHeaderCellDef (click)="doSort('minusN')">
+          minusN
+          <mat-icon *ngIf="isSortVisible('minusN','ASC')">arrow_upward</mat-icon>
+          <mat-icon *ngIf="isSortVisible('minusN','DESC')">arrow_downward</mat-icon>
+        </mat-header-cell>
+        <mat-cell style="max-width: 1500px;" *matCellDef="let element"> {{element.minusN}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="m">
+        <mat-header-cell style="max-width: 1500px;" *matHeaderCellDef (click)="doSort('m')">
+          m
+          <mat-icon *ngIf="isSortVisible('m','ASC')">arrow_upward</mat-icon>
+          <mat-icon *ngIf="isSortVisible('m','DESC')">arrow_downward</mat-icon>
+        </mat-header-cell>
+        <mat-cell style="max-width: 1500px;" *matCellDef="let element"> {{element.m}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="mBd">
+        <mat-header-cell style="max-width: 1500px;" *matHeaderCellDef (click)="doSort('mBd')">
+          minusN
+          <mat-icon *ngIf="isSortVisible('mBd','ASC')">arrow_upward</mat-icon>
+          <mat-icon *ngIf="isSortVisible('mBd','DESC')">arrow_downward</mat-icon>
+        </mat-header-cell>
+        <mat-cell style="max-width: 1500px;" *matCellDef="let element"> {{element.mBd}} </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row"></mat-row>
+    </mat-table>
+    <mat-divider></mat-divider>
+
+  </div>
+  <mat-paginator [length]="dataSource.totalRow"
+                 [pageSize]="defaultPageSize" [pageSizeOptions]="[10, 25, 50, 100, 500]">
+  </mat-paginator>
+
+</div>

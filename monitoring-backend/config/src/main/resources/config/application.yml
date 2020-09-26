@@ -1,0 +1,47 @@
+server:
+    port: 8089
+
+nli:
+  reporting_url: http://vmu0305orqd45.nli.local:9111/myBusinessSmartEnergy/interface/%s/msb/v1.0/myBusinessSmartEnergy/interface/%s/reporting/v1.0/status/logs
+  client_url: http://vmu0305orqd45.nli.local:9111/myBusinessSmartEnergy/interface/%s/msb/v1.0/myBusinessSmartEnergy/interface/msb/v1.0/client/
+  auth_url: http://vmu0305orqd45.nli.local:9111/myBusinessSmartEnergy/interface/%s/msb/v1.0/myBusinessSmartEnergy/interface/jwt/authentication
+  secret_key: ${nli_secret_key}
+
+# In memory database configuration
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bourse  #10
+    username: postgres #12
+    password: admin #13
+    platform: POSTGRESQL
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        jdbc.lob.non_contextual_creation: true
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+keycloak:
+  enabled: false
+  auth-server-url: ${nli_keycloak_server_url}/auth
+  realm: ${nli_keycloak_realm}
+  resource: MNT-Backend
+  bearer-only: true # if you are only a ResourceServer, but not an active Client
+  public-client: false
+  ssl-required: external
+  credentials:
+    secret: ${nli_keycloak_monitoring_secret}
+
+frontend:
+  keycloak:
+    auth-server-url: ${nli_keycloak_server_url}
+    resource: MNT-UI
+    realm: ${nli_keycloak_realm}
+
+bourse:
+  run-job: true
